@@ -4,39 +4,36 @@ using UnityEngine;
 
 public class GameEnding : MonoBehaviour
 {
-
+    public float displayImageDuration = 1f;
     public float fadeDuration = 1f;
-    public GameObject player;
-    bool m_IsPlayerAtExit;
+     float m_Timer;
+     public GameObject player;
     public CanvasGroup exitBackgroundImageCanvasGroup;
-    float m_Timer;
+    bool m_IsPlayerAtExit;
 
-    // Start is called before the first frame update
-
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter (Collider other)
     {
         if (other.gameObject == player)
         {
             m_IsPlayerAtExit = true;
         }
     }
-    
-    void Start()
+    void EndLevel ()
     {
-        
-    }
+        m_Timer += Time.deltaTime;
 
-    // Update is called once per frame
-    void Update()
+        exitBackgroundImageCanvasGroup.alpha = m_Timer / fadeDuration;
+
+        if(m_Timer > fadeDuration + displayImageDuration)
+        {
+            Application.Quit ();
+        }
+    }
+    void Update ()
     {
         if(m_IsPlayerAtExit)
         {
             EndLevel ();
         }
-    void EndLevel()
-    {
-
-    }
-        
     }
 }
